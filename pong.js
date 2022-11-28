@@ -51,7 +51,6 @@ function isInBetween(value, min, max) {
 
 function randomNumBetween(a, b) {
     const random = Math.floor(Math.random() * (b - a) + a);
-    console.log(random)
     return random;
 }
 
@@ -106,7 +105,7 @@ class Ball {
     makeFaster() { return this.dx > 0 ? this.dx + 0.05 : this.dx - 0.05 }
 
     shouldChangeDirection() {
-        let random = randomNumBetween(1, 4)
+        let random = randomNumBetween(1, 4);
         return random > 2 ? -random : random;
     }
 
@@ -130,9 +129,8 @@ class Ball {
     moveToStart() {
         this.x = BALL_START_X;
         this.y = BALL_START_Y;
-        this.dy = this.shouldChangeDirection()  // generowanie pseudolosowego kierunku piłeczki po powrocie na środek
+        this.dy = this.shouldChangeDirection();  // generowanie pseudolosowego kierunku piłeczki po powrocie na środek
         this.dx = this.makeFaster();  // po zobyciu punktu piłeczka przyspiesza
-        console.log(this.dx)
     }
 
     isOutsideOnLeft() { return this.x + BALL_R < 0; }
@@ -165,11 +163,11 @@ class Paddle {
     }
 
     stepDown = function () {
-        this.setY(this.y + PADDLE_STEP)
+        this.setY(this.y + PADDLE_STEP);
     }
 
     stepUp = function () {
-        this.setY(this.y - PADDLE_STEP)
+        this.setY(this.y - PADDLE_STEP);
     }
 
     draw() {
@@ -225,8 +223,8 @@ class Game {
     drawState() {
         clearCanvas();
         this.ball.draw();
-        this.p1.draw()
-        this.p2.draw()
+        this.p1.draw();
+        this.p2.draw();
     }
 
     updateAndDrawState() {
@@ -237,9 +235,8 @@ class Game {
         this.drawState();
     }
 
-
     setupControl() {
-        window.addEventListener("keydown", function (event) {
+        window.addEventListener("keydown", event => {
             const code = event.code;
             if (code === P1_UP_BUTTON) {
                 this.p1.action = UP_ACTION;
@@ -252,18 +249,17 @@ class Game {
             } else if (code === PAUSE_BUTTON) {
                 this.paused = !this.paused;
             }
-        }.bind(this));
+        });
 
-        window.addEventListener("keyup", function (event) {
+        window.addEventListener("keyup", event => {
             const code = event.code;
             if ((code === P1_UP_BUTTON && this.p1.action === UP_ACTION) || (code === P1_DOWN_BUTTON && this.p1.action === DOWN_ACTION)) {
                 this.p1.action = STOP_ACTION;
             } else if ((code === P2_UP_BUTTON && this.p2.action === UP_ACTION) || (code === P2_DOWN_BUTTON && this.p2.action === DOWN_ACTION)) {
                 this.p2.action = STOP_ACTION;
             }
-        }.bind(this));
+        });
     }
-
 
     start() {
         setInterval(this.updateAndDrawState.bind(this), STATE_CHANGE_INTERVAL);
